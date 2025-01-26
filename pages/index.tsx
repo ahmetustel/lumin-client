@@ -9,7 +9,7 @@ const Home = () => {
     router.push("/login");
   }, [router]);
 
-  return <div>Redirecting to login...</div>;
+  return <div>Yükleniyor...</div>;
 };
 
 export default Home;

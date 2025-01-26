@@ -9,23 +9,32 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-    });
-    if (res.ok) {
-      // Handle successful login (e.g., store token)
-      router.push("/application");
-    } else {
-      // Handle errors
-      alert("Login failed");
+
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/users/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        }
+      );
+      if (res.ok) {
+        // Başarılı login ise token vs. saklama
+        router.push("/application");
+      } else {
+        alert("Giriş başarısız!");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Sunucuya bağlanırken hata oluştu.");
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <input
+        type="text"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         placeholder="Username"
@@ -35,10 +44,10 @@ const Login = () => {
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
         required
+        placeholder="Şifre"
       />
-      <button type="submit">Login</button>
+      <button type="submit">Giriş Yap</button>
     </form>
   );
 };

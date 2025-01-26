@@ -1,6 +1,7 @@
 // components/ReservationCard.tsx
 import React, { useState } from "react";
 import AIModal from "./AIModal";
+import styles from "./ReservationCard.module.css";
 
 interface Customer {
   id: string;
@@ -19,6 +20,8 @@ const ReservationCard: React.FC<{ reservation: Reservation }> = ({
   reservation,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Yapay zekadan gelecek örnek yorumlar (static data)
   const aiComments = [
     "Recommendation: Upgrade to premium seating.",
     "Summary: Customer prefers window seats.",
@@ -26,7 +29,7 @@ const ReservationCard: React.FC<{ reservation: Reservation }> = ({
 
   return (
     <>
-      <div className="reservation-card bg-white shadow-md rounded p-4 mb-4">
+      {/* <div className="reservation-card bg-white shadow-md rounded p-4 mb-4">
         <h3 className="text-xl font-bold">
           Flight: {reservation.flightNumber}
         </h3>
@@ -44,14 +47,34 @@ const ReservationCard: React.FC<{ reservation: Reservation }> = ({
         <button className="mt-2 bg-blue-500 text-white px-3 py-1 rounded">
           View AI Comments
         </button>
-      </div>
+      </div> */}
       {/* Reservation details */}
-      <button onClick={() => setIsModalOpen(true)}>View AI Comments</button>
+      {/* <button onClick={() => setIsModalOpen(true)}>View AI Comments</button>
       <AIModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         content={aiComments}
-      />
+      /> */}
+      <div className={styles.reservationCard}>
+        <h3>Uçuş Numarası: {reservation.flightNumber}</h3>
+        <p>Tarih: {new Date(reservation.date).toLocaleDateString()}</p>
+        <h4>Müşteriler:</h4>
+        <ul>
+          {reservation.customers.map((customer) => (
+            <li key={customer.id}>
+              {customer.name} ({customer.email})
+            </li>
+          ))}
+        </ul>
+        <button onClick={() => setIsModalOpen(true)}>
+          AI Yorumları Göster
+        </button>
+        <AIModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          content={aiComments}
+        />
+      </div>
     </>
   );
 };
